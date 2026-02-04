@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Will You Be My Valentine?</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Roboto', sans-serif;
+            overflow: hidden;
+             background:rgba(243, 59, 151, 0.6);
+        }
+
+        /* Blurry background */
+        .bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("iraa.jpg") no-repeat center center;
+            background-size: cover;
+            filter: blur(8px);
+            z-index: -2;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.3);
+            /* light overlay to make text readable */
+            z-index: -1;
+        }
+
+        .card h1 {
+            font-family: 'Oswald', cursive;
+            color: #d6336c;
+            margin-bottom: 20px;
+        }
+
+        #yesBtn {
+            font-family: 'Oswald', cursive;
+            /* Fun / romantic */
+            box-shadow: 0 0 10px rgba(255, 77, 109, 0.6);
+            animation: glow 1.5s infinite alternate;
+        }
+
+        #noBtn {
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        button {
+    text-transform: none; /* Keep capital letters natural */
+    letter-spacing: 1px;
+}
+
+
+        #errorPopup,
+        #begNote {
+            font-family: 'Oswald', cursive;
+        }
+
+        .card {
+            background: rgb(255, 255, 255);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 320px;
+            position: relative;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .heart {
+            font-size: 50px;
+            color: #ff4d6d;
+            animation: heartbeat 1.5s infinite;
+            margin-bottom: 10px;
+        }
+
+        @keyframes heartbeat {
+            0% {
+                transform: scale(1);
+            }
+
+            25% {
+                transform: scale(1.1);
+            }
+
+            50% {
+                transform: scale(1);
+            }
+
+            75% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        h1 {
+            color: #d6336c;
+            margin-bottom: 30px;
+        }
+
+        .buttons {
+            position: relative;
+            height: 120px;
+        }
+
+        button {
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 15px 30px;
+            transition: all 0.3s ease;
+            position: absolute;
+        }
+
+        #yesBtn {
+            background-color: #f361a1;
+            color: white;
+            left: 20px;
+            bottom: 10px;
+        }
+
+        #noBtn {
+            background-color: #6c757d;
+            color: white;
+            right: 20px;
+            bottom: 10px;
+        }
+
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        #yesBtn {
+            box-shadow: 0 0 10px rgba(255, 77, 109, 0.6);
+            animation: glow 1.5s infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 10px rgba(255, 77, 109, 0.6);
+            }
+
+            to {
+                box-shadow: 0 0 25px rgba(255, 77, 109, 1);
+            }
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-150px) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        #errorPopup {
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            background: #f8f9fa;
+            border: 2px solid #adb5bd;
+            border-radius: 6px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 999;
+            animation: popIn 0.3s ease;
+        }
+
+        @keyframes popIn {
+            from {
+                transform: translateX(-50%) scale(0.8);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(-50%) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .error-header {
+            background: #dee2e6;
+            padding: 8px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .error-body {
+            padding: 20px;
+            text-align: center;
+            font-size: 16px;
+            color: #d6336c;
+        }
+
+        .close-btn {
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .heart-particle {
+    position: fixed;
+    font-size: 24px;
+    pointer-events: none;
+    animation: floatUp 2s ease-out forwards;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-150px) scale(1.5);
+        opacity: 0;
+    }
+}
+#yesCard {
+    background: rgba(255,255,255,0.85);;
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    width: 350px;
+    margin: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    position: relative;
+}
+       
+    </style>
+</head>
+
+<body>
+    <!-- Blurry background -->
+    <div class="bg"></div>
+     <div class="overlay"></div>
+    
+     <div class="card" id="mainCard">
+        <div class="heart">❤️</div>
+        <h1>Will you be my Valentine, Ira?</h1>
+        <div id="errorPopup">
+            <div class="error-header"> <span>⚠ System Message</span> <span class="close-btn">✖</span> </div>
+            <div class="error-body">
+                <p id="begNote">Please say yes 🥺</p>
+            </div>
+        </div>
+        <div class="buttons">
+            <button id="noBtn" onclick="noClicked()">NO 💔</button>
+           <button id="yesBtn" onclick="yesClicked()">YES 💖</button>
+
+        </div>
+    </div>
+
+    </div> <audio id="bgMusic" loop>
+        <source src="Fitterkarma.mp3" type="audio/mpeg"> Your browser does not support the audio element.
+    </audio>
+</body>
+
+</html>
+
+<script>
+
+    let yesSize = 17;
+    let noOpacity = 1;
+    let glowStrength = 25;
+    let noClicks = 0;
+
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const popup = document.getElementById("errorPopup");
+    const begNote = document.getElementById("begNote");
+
+    const begMessages = [
+        "Please say yes 🥺",
+        "System warning: PLEASE BABY KO NA MALOPIT 💔",
+        "Error 404: DONT SAY NO 😢",
+        "Critical alert: PLEASE I LOVE YOU SM 💘",
+        "Override required: Click YES 😭",
+        "System: WAHHHHHHHHHHHHH 🔥",
+        "Fatal error: NO is not allowed anymore 😖",
+        "Emergency! Say YES now, RIGHT NOW :P"
+    ];
+
+    function noClicked() {
+        
+        noClicks++;
+
+        // YES grows
+        yesSize += 2.7;
+        yesBtn.style.fontSize = yesSize + "px";
+        yesBtn.style.padding = (yesSize - 5) + "px " + (yesSize * 2) + "px";
+
+        // YES glow increases
+        glowStrength += 10;
+        yesBtn.style.boxShadow = `0 0 ${glowStrength}px rgba(255, 77, 109, 1)`;
+
+        // NO fades away
+        noOpacity -= 0.15;
+        noBtn.style.opacity = noOpacity;
+        if (noOpacity <= 0) {
+            noBtn.style.display = "none";
+        }
+
+        // Show popup with begging message
+        begNote.textContent = begMessages[Math.min(noClicks, begMessages.length - 1)];
+        popup.style.display = "block";
+    }
+
+  function yesClicked() {
+    const music = document.getElementById("bgMusic");
+    music.volume = 0.5;
+    music.play();
+
+    createHearts();
+
+    // Delay slightly for hearts animation
+    setTimeout(() => {
+        document.body.innerHTML = `
+            <div style="
+                background:white;
+                padding:40px;
+                border-radius:20px;
+                box-shadow:0 15px 30px rgba(0,0,0,0.2);
+                text-align:center;
+                font-family: 'Roboto', sans-serif;">
+                
+                <h1 style="font-family: 'Pacifico', cursive; color:#ff4d6d;">FINALLY YOU SAID YES YAY! 💖</h1>
+                <h2>Let's plan our Valentines 💌</h2>
+                
+                <form id="plannerForm">
+                    <div style="margin:10px 0;">
+                        <label>Color to wear:</label><br>
+                        <input type="text" id="color" placeholder="e.g., Red or Anything" required>
+                    </div>
+                    <div style="margin:10px 0;">
+                        <label>Clothes to wear:</label><br>
+                        <input type="text" id="clothes" placeholder="e.g., Dress / Casual" required>
+                    </div>
+                    <div style="margin:10px 0;">
+                        <label>Place to go:</label><br>
+                        <input type="text" id="place" placeholder="e.g., Park / Cafe" required>
+                    </div>
+                    <div style="margin:10px 0;">
+                        <label>Time:</label><br>
+                        <input type="text" id="time" placeholder="e.g., 3 PM" required>
+                    </div>
+                    <button type="submit" style="
+                        background-color:#ff4d6d;
+                        color:white;
+                        padding:10px 20px;
+                        border:none;
+                        border-radius:10px;
+                        font-family:'Pacifico', cursive;
+                        cursor:pointer;
+                        margin-top:10px;
+                    ">Submit 💖</button>
+                </form>
+
+                <div id="summary" style="margin-top:20px; color:#d6336c; font-weight:bold;"></div>
+            </div>
+        `;
+
+        // Handle form submission
+        document.getElementById("plannerForm").addEventListener("submit", function(e){
+            e.preventDefault();
+            const color = document.getElementById("color").value;
+            const clothes = document.getElementById("clothes").value;
+            const place = document.getElementById("place").value;
+            const time = document.getElementById("time").value;
+             e.target.querySelector("button[type='submit']").style.display = "none";
+            document.getElementById("summary").innerHTML = `
+                <h2>Here’s our Valentines plan! 💘
+                     SCREEN SHOT MO SEND MO SAKIN HAHAH I LOVE YOU</h2>
+                <p>Color: <span style="color:${color}; font-weight:bold;">${color}</span></p>
+                <p>Clothes: ${clothes}</p>
+                <p>Place: ${place}</p>
+                <p>Time: ${time}</p>
+            `;
+        });
+
+    }, 1200);
+}
+
+    function createHearts() {
+        for (let i = 0; i < 20; i++) {
+            const heart = document.createElement("div");
+            heart.classList.add("heart-particle");
+            heart.innerHTML = "❤️";
+            heart.style.left = Math.random() * window.innerWidth + "px";
+            heart.style.top = Math.random() * window.innerHeight + "px";
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 2000);
+        }
+    }
+
+    // Close button hides popup
+    document.querySelector(".close-btn").onclick = () => {
+        popup.style.display = "none";
+    };
+     
+</script>
+
